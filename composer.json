@@ -1,0 +1,6 @@
+{
+    "name": "firedial/secret_maker",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
