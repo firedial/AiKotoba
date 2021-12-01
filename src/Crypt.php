@@ -42,19 +42,23 @@ class Crypt
             return array_merge(range('A', 'Z'), range('a', 'z'), range('0', '9'));
         }
 
-        // デフォルト値は 72 とする
-        $large = range('A', 'Z');
-        // unset I
-        unset($large[8]);
-        // unset O
-        unset($large[14]);
+        if ($base === 72) {
+            $large = range('A', 'Z');
+            // unset I
+            unset($large[8]);
+            // unset O
+            unset($large[14]);
         
-        $small = range('a', 'z');
-        // unset l
-        unset($large[11]);
+            $small = range('a', 'z');
+            // unset l
+            unset($large[11]);
 
-        $symbol = array('#', '$', '%', '&', '(', ')', '+', '-', '<', '=', '>', '?', '_', '^');
-        return array_merge($large, $small, range('1', '9'), $symbol);
+            $symbol = array('#', '$', '%', '&', '(', ')', '+', '-', '<', '=', '>', '?', '_', '^');
+            return array_merge($large, $small, range('1', '9'), $symbol);
+        }
+
+
+        throw new Exception('Wrong base number: ' . $base);
     }
 
     private static function getPrePassword($key, $iv, $stretch)
