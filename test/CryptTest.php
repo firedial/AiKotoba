@@ -16,4 +16,15 @@ final class CryptTest extends TestCase
         $password = Crypt::getPassword($key, $name, $seed, $base, $len);   
         $this->assertSame($password, 'zd?_1TgM6Z1%#H7b');
     }
+
+    public function testException(): void
+    {
+        $key = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+        $name = 'name';
+        $seed = 'seed';
+        $base = 73;
+        $len = 16;
+        $this->expectException(Exception::class);
+        Crypt::getPassword($key, $name, $seed, $base, $len);
+    }
 }

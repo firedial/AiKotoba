@@ -58,7 +58,7 @@ class Crypt
         }
 
 
-        throw new Exception('Wrong base number: ' . $base);
+        throw new \Exception('Wrong base number: ' . $base);
     }
 
     private static function getPrePassword($key, $iv, $stretch)
