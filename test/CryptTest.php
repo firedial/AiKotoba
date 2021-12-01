@@ -62,7 +62,7 @@ final class CryptTest extends TestCase
         }
     }
 
-    public function testException(): void
+    public function testBaseException(): void
     {
         $key = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
         $name = 'name';
@@ -72,4 +72,27 @@ final class CryptTest extends TestCase
         $this->expectException(Exception::class);
         Crypt::getPassword($key, $name, $seed, $base, $len);
     }
+
+    public function testLowerLengthException(): void
+    {
+        $key = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+        $name = 'name';
+        $seed = 'seed';
+        $base = 72;
+        $len = 0;
+        $this->expectException(Exception::class);
+        Crypt::getPassword($key, $name, $seed, $base, $len);
+    }
+
+    public function testUpperLengthException(): void
+    {
+        $key = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+        $name = 'name';
+        $seed = 'seed';
+        $base = 72;
+        $len = 41;
+        $this->expectException(Exception::class);
+        Crypt::getPassword($key, $name, $seed, $base, $len);
+    }
+
 }

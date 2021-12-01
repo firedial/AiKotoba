@@ -7,6 +7,11 @@ class Crypt
 
     public static function getPassword($key, $name, $seed, $base, $len)
     {
+        if ($len <= 0 || 41 <= $len) {
+            throw new \Exception('Wrong length: ' . $len);
+        }
+
+
         $iv = hash('sha256', $name, true) ^ hash('sha256', $seed, true) ^ hash('sha256', $base, true) ^ hash('sha256', $len, true);
         $prePassword = self::getPrePassword($key, $iv, self::HASH_STRETCH_NUMBER);
         $baseArray = self::getBaseArray($prePassword, $base);
