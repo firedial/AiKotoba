@@ -13,8 +13,8 @@ if ($key === false) {
 $name = isset($argv[1]) ? $argv[1] : '';
 
 $params = getopt('b:l:');
-$base = isset($params['b']) ? $params['b'] : 72;
-$len = isset($params['l']) ? $params['l'] : 16;
+$base = isset($params['b']) ? (int)$params['b'] : 72;
+$len = isset($params['l']) ? (int)$params['l'] : 16;
 
 // シードを受け取る
 echo 'seed: ';
@@ -28,5 +28,4 @@ echo PHP_EOL;
 
 echo Crypt::getPassword($key, $name, $seed, $base, $len);
 echo PHP_EOL;
-
 
