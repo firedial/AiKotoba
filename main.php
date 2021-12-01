@@ -17,12 +17,14 @@ $base = isset($params['b']) ? $params['b'] : 72;
 $len = isset($params['l']) ? $params['l'] : 16;
 
 // シードを受け取る
+echo 'seed: ';
 system('stty -echo');
 @flock(STDIN, LOCK_EX);
 $seed = fgets(STDIN);
 @flock(STDIN, LOCK_UN);
 system('stty echo');
 $seed = trim($seed);
+echo PHP_EOL;
 
 echo Crypt::getPassword($key, $name, $seed, $base, $len);
 echo PHP_EOL;
