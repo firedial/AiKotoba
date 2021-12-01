@@ -1,6 +1,7 @@
 <?php
 
-require_once('Crypt.php');
+require_once('src/Crypt.php');
+use src\Crypt;
 
 $key = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 $name = 'name';
