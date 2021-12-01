@@ -17,6 +17,25 @@ final class CryptTest extends TestCase
         $this->assertSame($password, 'zd?_1TgM6Z1%#H7b');
     }
 
+    public function testSpecificKey(): void
+    {
+        $key = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+        $name = 'name';
+        $seed = 'seed';
+        $base = 72;
+        $len = 16;
+
+        // 0x00000000000000000000000000000000
+        $key = $key ^ $key;
+        $password = Crypt::getPassword($key, $name, $seed, $base, $len);   
+        $this->assertSame($password, 'kll4?FVr)uA?GHFx');
+
+        // 0x11111111111111111111111111111111
+        $key = ~$key;
+        $password = Crypt::getPassword($key, $name, $seed, $base, $len);   
+        $this->assertSame($password, 'Q=(E#<yDWTDq<r)1');
+    }
+
     public function testBase(): void
     {
         $key = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
