@@ -3,14 +3,28 @@
 require_once('src/Crypt.php');
 use src\Crypt;
 
-$key = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
-$name = 'name';
-$seed = 'seed';
-$base = 72;
-$len = 16;
+$key = file_get_contents('./master_key.txt');
+// 読み込みに失敗した時
+if ($key === false) {
+    echo 'Can not read master key file.' . PHP_EOL;
+    exit; 
+}
 
-$password = Crypt::getPassword($key, $name, $seed, $base, $len);
-echo $password;
+$name = isset($argv[1]) ? $argv[1] : '';
+
+$params = getopt('b:l:');
+$base = isset($params['b']) ? $params['b'] : 72;
+$len = isset($params['l']) ? $params['l'] : 16;
+
+// シードを受け取る
+system('stty -echo');
+@flock(STDIN, LOCK_EX);
+$seed = fgets(STDIN);
+@flock(STDIN, LOCK_UN);
+system('stty echo');
+$seed = trim($seed);
+
+echo Crypt::getPassword($key, $name, $seed, $base, $len);
 echo PHP_EOL;
 
 
