@@ -4,6 +4,30 @@ namespace src;
 class Crypt
 {
     const HASH_STRETCH_NUMBER = 1024;
+    
+    public static function create($key, $phrase, $name, $seed, $base, $len)
+    {
+        if ($len <= 0 || 41 <= $len) {
+            throw new \Exception('Wrong length: ' . $len);
+        }
+
+        $secret = self::mh($key, 1) ^ self::mh($phrase, 2);
+        $iv = self::mh($name, 3) ^ self::mh($seed, 4) ^ self::mh($base, 5) ^ self::mh($base, 6);
+
+        $baseString = self::getBaseString($base);
+        $baseArray = self::getBaseArray(
+            self::getPrePassword($key, $iv, self::HASH_STRETCH_NUMBER),
+            $base
+        );
+
+        $longPassword = array_map(
+            function ($x) use ($baseString) {
+                return $baseString[$x];
+            }, $baseArray
+        );
+
+        return implode('', array_slice($longPassword, 0, $len));
+    }
 
     public static function getPassword($key, $name, $seed, $base, $len)
     {
@@ -104,6 +128,14 @@ class Crypt
     private static function h($v)
     {
         return hash('sha256', $v, true);
+    }
+
+    private static function mh($v, $n)
+    {
+        if ($n === 0) {
+            return $n;
+        }
+        return self::mh(self::h($v), --$n);
     }
 }
 
