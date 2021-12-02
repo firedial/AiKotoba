@@ -15,7 +15,7 @@ final class CryptTest extends TestCase
         $len = 16;
 
         $password = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
-        $this->assertSame($password, 'x5J(9wo7ER_nR9&B');
+        $this->assertSame($password, 'txvecXPrsbNCgAc9');
     }
     
     public function testParameter(): void
@@ -28,7 +28,43 @@ final class CryptTest extends TestCase
         $name = 'name1';
         $seed = 'seed1';
         $password = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
-        $this->assertSame($password, 'x5J(9wo7ER_nR9&B');
+        $this->assertSame($password, 'y(qlHlAyrRs2lZ4G');
+    }
+
+    public function testDiffierence(): void
+    {
+        $key = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+        $phrase = 'phrase';
+        $name = 'name';
+        $seed = 'seed';
+        $base = 72;
+        $len = 16;
+
+        $p0 = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
+
+        $key = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab';
+        $p1 = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
+        $this->assertNotSame($p0, $p1);
+
+        $phrase = 'phrase1';
+        $p2 = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
+        $this->assertNotSame($p1, $p2);
+
+        $name = 'name1';
+        $p3 = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
+        $this->assertNotSame($p2, $p3);
+
+        $seed = 'seed1';
+        $p4 = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
+        $this->assertNotSame($p3, $p4);
+
+        $base = 62;
+        $p5 = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
+        $this->assertNotSame($p4, $p5);
+
+        $len = 15;
+        $p6 = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
+        $this->assertNotSame($p5, $p6);
     }
 
     public function testSpecificKey(): void
@@ -43,12 +79,12 @@ final class CryptTest extends TestCase
         // 0x00000000000000000000000000000000
         $key = $key ^ $key;
         $password = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
-        $this->assertSame($password, 'tgr%ym5b1#F_l^>N');
+        $this->assertSame($password, 'TE)lyWMZ5#9?Vv$G');
 
         // 0x11111111111111111111111111111111
         $key = ~$key;
         $password = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
-        $this->assertSame($password, 'fvTxpjWMl5hpqbrN');
+        $this->assertSame($password, 'MCog7XQx<-PgPkWr');
     }
 
     public function testBase(): void
@@ -61,27 +97,27 @@ final class CryptTest extends TestCase
 
         $base = 10;
         $password = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
-        $this->assertSame($password, '8578876338292060');
+        $this->assertSame($password, '9268087381340731');
 
         $base = 26;
         $password = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
-        $this->assertSame($password, 'suvjcimvtglkpmor');
+        $this->assertSame($password, 'ovlppjfxynwconit');
 
         $base = 36;
         $password = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
-        $this->assertSame($password, 'k982zz6o7byqltmp');
+        $this->assertSame($password, 'nvjg2w7for5aq2fg');
 
         $base = 52;
         $password = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
-        $this->assertSame($password, 'SxlhTvHmdNQozXFO');
+        $this->assertSame($password, 'RYFwBuYDUTQfrGtE');
 
         $base = 62;
         $password = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
-        $this->assertSame($password, 'sVfxqQvpZcF3JIiX');
+        $this->assertSame($password, 'Yt8hqTvINZqYOzwC');
 
         $base = 72;
         $password = Crypt::create($key, $phrase, $name, $seed, $base, $len);   
-        $this->assertSame($password, 'x5J(9wo7ER_nR9&B');
+        $this->assertSame($password, 'txvecXPrsbNCgAc9');
     }
 
     public function testLength(): void

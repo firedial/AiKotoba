@@ -16,7 +16,7 @@ class Crypt
 
         $baseString = self::getBaseString($base);
         $baseArray = self::getBaseArray(
-            self::getPrePassword($key, $iv, self::HASH_STRETCH_NUMBER),
+            self::getPrePassword($secret, $iv, self::HASH_STRETCH_NUMBER),
             $base
         );
 
@@ -114,7 +114,7 @@ class Crypt
     private static function mh($v, $n)
     {
         if ($n === 0) {
-            return $n;
+            return $v;
         }
         return self::mh(self::h($v), --$n);
     }
