@@ -11,8 +11,7 @@ class Crypt
             throw new \Exception('Wrong length: ' . $len);
         }
 
-
-        $iv = hash('sha256', $name, true) ^ hash('sha256', $seed, true) ^ hash('sha256', $base, true) ^ hash('sha256', $len, true);
+        $iv = self::h($name) ^ self::h($seed) ^ self::h($base) ^ self::h($len);
         $prePassword = self::getPrePassword($key, $iv, self::HASH_STRETCH_NUMBER);
         $baseArray = self::getBaseArray($prePassword, $base);
         $baseString = self::getBaseString($base);
@@ -71,7 +70,7 @@ class Crypt
         if ($stretch === 0) {
             return $iv;
         }
-        return self::getPrePassword($key, $key ^ hash('sha256', $iv, true), $stretch - 1);
+        return self::getPrePassword($key, $key ^ self::h($iv), --$stretch);
     }
 
     private static function getBaseArray($binary, $base)
@@ -102,6 +101,10 @@ class Crypt
         return $num;
     }
 
+    private static function h($v)
+    {
+        return hash('sha256', $v, true);
+    }
 }
 
 
