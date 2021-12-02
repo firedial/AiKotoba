@@ -29,25 +29,6 @@ class Crypt
         return implode('', array_slice($longPassword, 0, $len));
     }
 
-    public static function getPassword($key, $name, $seed, $base, $len)
-    {
-        if ($len <= 0 || 41 <= $len) {
-            throw new \Exception('Wrong length: ' . $len);
-        }
-
-        $iv = self::h($name) ^ self::h($seed) ^ self::h($base) ^ self::h($len);
-        $prePassword = self::getPrePassword($key, $iv, self::HASH_STRETCH_NUMBER);
-        $baseArray = self::getBaseArray($prePassword, $base);
-        $baseString = self::getBaseString($base);
-        $longPassword = array_map(
-            function ($x) use ($baseString) {
-                return $baseString[$x];
-            }, $baseArray
-        );
-
-        return implode('', array_slice($longPassword, 0, $len));
-    }
-
     private static function getBaseString($base)
     {
         if ($base === 10) {

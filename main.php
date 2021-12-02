@@ -10,22 +10,26 @@ if ($key === false) {
     exit; 
 }
 
-$name = isset($argv[1]) ? $argv[1] : '';
+$name = isset($argv[1]) ? array_pop($argv) : '';
 
 $params = getopt('b:l:');
 $base = isset($params['b']) ? (int)$params['b'] : 72;
 $len = isset($params['l']) ? (int)$params['l'] : 16;
 
 // シードを受け取る
-echo 'seed: ';
 system('stty -echo');
 @flock(STDIN, LOCK_EX);
+echo 'phrase: ';
+$phrase = fgets(STDIN);
+echo PHP_EOL;
+echo 'seed: ';
 $seed = fgets(STDIN);
 @flock(STDIN, LOCK_UN);
 system('stty echo');
 $seed = trim($seed);
+$phrase = trim($phrase);
 echo PHP_EOL;
 
-echo Crypt::getPassword($key, $name, $seed, $base, $len);
+echo Crypt::create($key, $phrase, $name, $seed, $base, $len);
 echo PHP_EOL;
 
