@@ -170,4 +170,26 @@ final class CryptTest extends TestCase
         Crypt::create($key, $phrase, $name, $seed, $base, $len);   
     }
 
+    public function testPrePassword(): void
+    {
+        $secret = hash('sha256', '', true);
+        $iv = hash('sha256', '', true);
+        $stretch = 100;
+
+        $prePassword = Crypt::getPrePassword($secret, $iv, $stretch);
+        $this->assertSame(bin2hex($prePassword), '7f5efb3393b92f69bd68c1077f38d35e5fdc10c31564650cd5894ef45c249561');
+
+        $secret = hash('sha256', 'secret', true);
+        $prePassword = Crypt::getPrePassword($secret, $iv, $stretch);
+        $this->assertSame(bin2hex($prePassword), 'd80a91242e0d3df6bd6ab6ea4181961012798a179e6df5e792ae66b80fee33d6');
+
+        $iv = hash('sha256', 'iv', true);
+        $prePassword = Crypt::getPrePassword($secret, $iv, $stretch);
+        $this->assertSame(bin2hex($prePassword), '153ae51c4b0144868f440722ac31883b4bbb4377454659cc670eba6e7cf40988');
+
+        $stretch = 150;
+        $prePassword = Crypt::getPrePassword($secret, $iv, $stretch);
+        $this->assertSame(bin2hex($prePassword), '32d787ace70dd56b63b26627e301c8ae2c5e945e4d9d6c5afb738e2592f7e5b7');
+    }
+
 }

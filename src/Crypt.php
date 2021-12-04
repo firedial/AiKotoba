@@ -70,12 +70,12 @@ class Crypt
         throw new \Exception('Wrong base number: ' . $base);
     }
 
-    private static function getPrePassword($key, $iv, $stretch)
+    public static function getPrePassword($secret, $iv, $stretch)
     {
         if ($stretch === 0) {
             return $iv;
         }
-        return self::getPrePassword($key, $key ^ self::h($iv), --$stretch);
+        return self::getPrePassword($secret, $secret ^ self::h($iv), --$stretch);
     }
 
     private static function getBaseArray($binary, $base)
