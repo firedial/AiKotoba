@@ -30,6 +30,9 @@ $seed = trim($seed);
 $phrase = trim($phrase);
 echo PHP_EOL;
 
-echo Crypt::create($key, $phrase, $name, $seed, $base, $len);
+$password = Crypt::create($key, $phrase, $name, $seed, $base, $len);
+echo 'password: ' . $password;
+echo PHP_EOL;
+echo 'checksum: ' . Crypt::getChecksum($password, $seed);
 echo PHP_EOL;
 
