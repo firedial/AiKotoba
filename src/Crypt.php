@@ -24,6 +24,11 @@ class Crypt
         return implode('', array_slice($longPassword, 0, $len));
     }
 
+    public static function getChecksum($password, $seed)
+    {
+        return hash_pbkdf2('sha256', $password, $seed, 65536, 4, false);
+    }
+
     private static function getBaseString($base)
     {
         if ($base === 10) {
