@@ -88,6 +88,36 @@ final class CryptTest extends TestCase
         $this->assertSame($password, 'e8nA$dsDzgoPkeZf');
     }
 
+    public function testIteration(): void
+    {
+        $key = '8f6d3a485a7deda9c31791079ef5dd4c582bcc144ddc16d8027b82c4eb3a5bc7';
+        $phrase = 'phrase';
+        $name = 'name';
+        $seed = 'seed';
+        $base = 72;
+        $len = 16;
+
+        $iteration = 1;
+        $password = Crypt::create($key, $phrase, $name, $seed, $iteration, $base, $len);   
+        $this->assertSame($password, 'N%#E3G<MCo6ZAm<<');
+
+        $iteration = 256;
+        $password = Crypt::create($key, $phrase, $name, $seed, $iteration, $base, $len);   
+        $this->assertSame($password, '4VH3qm)rAD9HYGZH');
+
+        $iteration = 10000; 
+        $password = Crypt::create($key, $phrase, $name, $seed, $iteration, $base, $len);   
+        $this->assertSame($password, '8Ht5d-K_J5#<GZ9S');
+
+        $iteration = 65536; 
+        $password = Crypt::create($key, $phrase, $name, $seed, $iteration, $base, $len);   
+        $this->assertSame($password, '6>?rm8$5NpgS)WWb');
+
+        $iteration = 100000; 
+        $password = Crypt::create($key, $phrase, $name, $seed, $iteration, $base, $len);   
+        $this->assertSame($password, 'ljiY_o>#>$zh91Kx');
+    }
+
     public function testBase(): void
     {
         $key = '8f6d3a485a7deda9c31791079ef5dd4c582bcc144ddc16d8027b82c4eb3a5bc7';
