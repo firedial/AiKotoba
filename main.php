@@ -30,10 +30,11 @@ $seed = trim(fgets(STDIN));
 system('stty echo');
 echo PHP_EOL;
 
-$password = Crypt::create($key, $phrase, $name, $seed, $base, $len);
+$password = Crypt::create($key, $phrase, $name, $seed, $iteration, $base, $len);
+
 echo 'password: ' . $password;
 echo PHP_EOL;
-echo 'checksum: ' . Crypt::getChecksum($password, $seed);
+echo 'checksum: ' . Crypt::getChecksum($password, $seed, $iteration);
 echo PHP_EOL;
 
 

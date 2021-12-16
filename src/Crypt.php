@@ -3,7 +3,7 @@ namespace src;
 
 class Crypt
 {
-    public static function create($key, $phrase, $name, $seed, $base, $len)
+    public static function create($key, $phrase, $name, $seed, $iteration, $base, $len)
     {
         if ($len <= 0 || 41 <= $len) {
             throw new \Exception('Wrong length: ' . $len);
@@ -11,7 +11,7 @@ class Crypt
 
         $baseString = self::getBaseString($base);
         $baseArray = self::getBaseArray(
-            hash_pbkdf2('sha256', $key . $phrase, $name . $seed, 65536, 256, true),
+            hash_pbkdf2('sha256', $key . $phrase, $name . $seed, $iteration, 256, true),
             $base
         );
 
@@ -24,9 +24,9 @@ class Crypt
         return implode('', array_slice($longPassword, 0, $len));
     }
 
-    public static function getChecksum($password, $seed)
+    public static function getChecksum($password, $seed, $iteration)
     {
-        return hash_pbkdf2('sha256', $password, $seed, 65536, 4, false);
+        return hash_pbkdf2('sha256', $password, $seed, $iteration, 4);
     }
 
     private static function getBaseString($base)
