@@ -30,7 +30,7 @@ $ php key_backup.php
 ## 使い方
 
 ```
-php main.php
+$ php main.php
 ```
 
 name, phrase, seed を順に入れていくことでパスワードとチェックサムが表示される。
@@ -51,7 +51,7 @@ $ php main.php -l 20 -b 26 -i 10000
 ## テスト
 
 ```
-$ endor/bin/phpunit test
+$ vendor/bin/phpunit test
 ```
 
 
