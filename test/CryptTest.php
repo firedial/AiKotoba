@@ -206,4 +206,26 @@ final class CryptTest extends TestCase
         Crypt::create($key, $phrase, $name, $seed, $iteration, $base, $len);   
     }
 
+    public function testChecksum(): void
+    {
+        $password = 'ljiY_o>#>$zh91Kx';
+        $seed = 'seed';
+        $iteration = 256;
+
+        $checksum = Crypt::getChecksum($password, $seed, $iteration);   
+        $this->assertSame($checksum, '2283');
+
+        $password = '4VH3qm)rAD9HYGZH';
+        $checksum = Crypt::getChecksum($password, $seed, $iteration);   
+        $this->assertSame($checksum, 'e05a');
+
+        $seed = 'seed1';
+        $checksum = Crypt::getChecksum($password, $seed, $iteration);   
+        $this->assertSame($checksum, '7824');
+
+        $iteration = 65536;
+        $checksum = Crypt::getChecksum($password, $seed, $iteration);   
+        $this->assertSame($checksum, 'f325');
+    }
+
 }
