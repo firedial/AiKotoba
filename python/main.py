@@ -10,9 +10,16 @@ base62 = list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
 base72 = list("ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789#$%&()+-<=>?_^")
 
 baseMap = {10: base10, 26: base26, 36: base36, 52: base52, 62: base62, 72: base72}
+ITERATION = 65536
+
+f = open(".key", "r")
+key = f.readline()
+f.close()
+
 
 phrase = getpass("phrase: ")
-hash = hashlib.pbkdf2_hmac("sha512", phrase.encode(), "aikotoba".encode(), 65536).hex()
+hash = hashlib.pbkdf2_hmac("sha512", (key + phrase).encode(), "aikotoba".encode(), 65536).hex()
+
 print(hash)
 
 while True:
@@ -22,14 +29,13 @@ while True:
     if config == "exit":
         break
 
-    seed, iterationStr, baseStr, lengthStr = config.split(",")
+    seed, baseStr, lengthStr = config.split(",")
 
-    iteration = int(iterationStr)
     base = int(baseStr)
     length = int(lengthStr)
     baseArray = baseMap[base]
 
-    rawpassword = int(hashlib.pbkdf2_hmac("sha512", phrase.encode(), seed.encode(), iteration).hex(), 16)
+    rawpassword = int(hashlib.pbkdf2_hmac("sha512", phrase.encode(), seed.encode(), ITERATION).hex(), 16)
 
     print("-" * 10)
     for i in range(length):
