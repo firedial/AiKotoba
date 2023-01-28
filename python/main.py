@@ -3,7 +3,6 @@ from getpass import getpass
 
 base10 = list("0123456789")
 base26 = list("abcdefghijklmnopqrstuvwxyz")
-base26 = list("abcdefghijklmnopqrstuvwxyz")
 base36 = list("abcdefghijklmnopqrstuvwxyz0123456789")
 base52 = list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
 base62 = list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
