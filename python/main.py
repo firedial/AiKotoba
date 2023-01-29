@@ -34,7 +34,7 @@ while True:
     length = int(lengthStr)
     baseArray = baseMap[base]
 
-    rawpassword = int(hashlib.pbkdf2_hmac("sha512", phrase.encode(), seed.encode(), ITERATION).hex(), 16)
+    rawpassword = int(hashlib.pbkdf2_hmac("sha512", (key + phrase).encode(), seed.encode(), ITERATION).hex(), 16)
 
     print("-" * 10)
     for i in range(length):
