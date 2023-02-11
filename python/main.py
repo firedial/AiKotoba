@@ -17,8 +17,9 @@ f.close()
 
 
 phrase = getpass("phrase: ")
-hash = hashlib.pbkdf2_hmac("sha512", (key + phrase).encode(), "aikotoba".encode(), 65536).hex()
+master = hashlib.sha256((key + phrase).encode()).hexdigest()
 
+hash = hashlib.pbkdf2_hmac("sha512", master.encode(), "aikotoba".encode(), 65536).hex()
 print(hash)
 
 while True:
@@ -34,7 +35,7 @@ while True:
     length = int(lengthStr)
     baseArray = baseMap[base]
 
-    rawpassword = int(hashlib.pbkdf2_hmac("sha512", (key + phrase).encode(), seed.encode(), ITERATION).hex(), 16)
+    rawpassword = int(hashlib.pbkdf2_hmac("sha512", master.encode(), seed.encode(), ITERATION).hex(), 16)
 
     print("-" * 10)
     for i in range(length):
